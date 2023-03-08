@@ -75,19 +75,20 @@ const Login = (props: LoginProps) => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
   useEffect(() => {
     const identifier = setTimeout(() => {
       console.log("Checking form validity!");
-      setFormIsValid(
-        emailState.value.includes("@") && passwordState.value.trim().length > 6
-      );
+      setFormIsValid(emailIsValid && passwordIsValid);
     }, 500);
 
     return () => {
       console.log("CLEANUP");
       clearTimeout(identifier);
     };
-  }, [emailState.value, passwordState.value]);
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event: SyntheticEvent) => {
     const target = event.target as HTMLInputElement;
