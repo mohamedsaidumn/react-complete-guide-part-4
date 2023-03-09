@@ -4,11 +4,13 @@ import React, {
   FormEvent,
   useEffect,
   useReducer,
+  useContext,
 } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext, { AuthContextType } from "../../store/auth-context";
 
 interface stateInterface {
   value: string;
@@ -50,11 +52,11 @@ const passwordReducer = (state: stateInterface, action: actionInterface) => {
   }
 };
 
-interface LoginProps {
-  onLogin: (email: string, password: string) => void;
-}
+interface LoginProps {}
 
 const Login = (props: LoginProps) => {
+  const ctx: AuthContextType = useContext(AuthContext);
+
   const [emailState, dispatchEmail] = useReducer(
     emailReducer,
     {
@@ -110,7 +112,7 @@ const Login = (props: LoginProps) => {
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    ctx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
